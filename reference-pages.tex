@@ -1,0 +1,641 @@
+%%	MIT License
+%%	
+%%	Copyright (c) 2018 Marcos Ortiz
+%%	
+%%	Permission is hereby granted, free of charge, to any person obtaining a copy
+%%	of this software and associated documentation files (the "Software"), to deal
+%%	in the Software without restriction, including without limitation the rights
+%%	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%%	copies of the Software, and to permit persons to whom the Software is
+%%	furnished to do so, subject to the following conditions:
+%%	
+%%	The above copyright notice and this permission notice shall be included in all
+%%	copies or substantial portions of the Software.
+%%	
+%%	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%%	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%%	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%%	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%%	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%%	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+%%	SOFTWARE.
+
+\documentclass{article}[11pt]
+
+\usepackage[margin=1in]{geometry} %Adjust margins
+\pagestyle{empty}%suppresses page numbers
+
+\usepackage{amsmath, amsfonts, amscd, amsthm}
+\usepackage{latexsym, verbatim, hyperref, graphicx, epstopdf}
+\usepackage[usenames,dvipsnames]{xcolor} %needed for colors in equations or text, see 
+\usepackage{verbatim, hyperref, enumerate, fancyhdr, framed, multicol, scalerel, mathtools}	%stuff I need sometimes
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\newtheorem{exercise}{Exercise}
+
+\DeclareMathOperator*{\dotprod}{\scalerel*{\cdot}{\bigodot}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\vecvec{\langle}{\rangle}
+\DeclarePairedDelimiterX{\vecnorm}[1]{\lVert}{\rVert}{#1}
+
+\numberwithin{equation}{section}
+
+\newenvironment{example}[1][Example]
+{
+	\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}]
+	}
+	{
+	\end{trivlist}
+}
+
+\newenvironment{notation}[1][Notation]
+{
+	\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}]
+	}
+	{
+	\end{trivlist}
+}
+
+\newenvironment{fact}[1][Fact]
+{
+	\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}]
+	}
+	{
+	\end{trivlist}
+}
+
+\begin{document}
+%\maketitle
+\thispagestyle{fancy}
+\fancyhf{} % sets both header and footer to nothing
+\renewcommand{\headrulewidth}{0pt}
+\chead{Multivariable Calculus Reference Sheet}
+
+
+\setcounter{section}{0}
+\section{Vector Spaces and Geometric Applications}
+\subsection{Definitions and Operations}
+\begin{definition}[Distance Formula]
+	In \(\mathbb{R}^n\), the distance \(\abs*{P_1P_2}\) between the points \( P_1(x_1,x_2,...,x_n) \) and \(P_2(y_1,y_2,...,y_n)\) is
+	\begin{align}
+		\abs*{P_1 P_2}=\sqrt{(y_1-x_1)^2+(y_2-x_2)^2+\cdots+(y_n-x_n)^2} \label{eqn: the distance formula in R^n}
+	\end{align}
+\end{definition}
+
+\begin{definition}
+	A \emph{vector space} is a set, whose elements we call \emph{vectors}, along with a field of \emph{scalars}, where the following operations are well defined:
+	\begin{itemize}
+		\item vector addition (we can add two vectors to get a new vector: \( \vec{u}+\vec{v}=\vec{w} \) )
+		\item scalar multiplication (we can multiply a vector by a scalar to get a new vector: \( c\vec{r}=\vec{s} \) )
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[The Vector Space \(\mathbb{R}^n\)]
+	\emph{Vectors in \(\mathbb{R}^n\)} can be represented by arrows, with initial and terminal points, fixing a direction and magnitude (length) of the arrow. 
+	
+	The result of \emph{vector addition}
+	\begin{align*}
+	\vec{a}+\vec{b}
+	\end{align*}
+	is defined by positioning the initial point of \(\vec{b}\) at the terminal point of \(\vec{a}\) so the sum is the arrow that has the same initial point of \(\vec{a}\) and the same terminal point as \(\vec{b}\) in this position.
+	
+	The result of \emph{scalar multiplication} by a real number \(c\)
+	\begin{align*}
+		c\vec{a}
+	\end{align*}
+	is defined to be the arrow in the same direction (or opposite direction, if \(c<0\)) as \(\vec{a}\) whose magnitude is \(\abs{c}\) times the magnitude of \(\vec{a}\).
+	
+	When we refer to \(\mathbb{R}^n\) as a vector space, the set of arrows in \(\mathbb{R}^n\) is the set of vectors, and the set of all real numbers is the field of scalars.
+\end{definition}
+
+\begin{definition}
+	We say that two vectors are \emph{parallel} if they are scalar multiples of one another.
+\end{definition}
+
+\begin{definition}
+	Representing Vectors in \(\mathbb{R}^n\)
+	\begin{itemize}
+		\item The arrow with initial point at the origin, \(O\), and terminal point \(P(x_1,x_2,\dots,x_n)\), is the \emph{position vector} of the point \(P\). It is denoted by \(\overrightarrow{OP} = \vecvec*{x_1,x_2,\dots,x_n} \)
+		\item The vector with initial point \(P(x_1,x_2,\dots,x_n)\) and terminal point \(Q(y_1,y_2,\dots,y_n)\), denoted \(\overrightarrow{PQ}\) is represented by
+			\begin{align}
+				\overrightarrow{PQ}=\vecvec{y_1-x_1,y_2-x_2,\dots,y_n-x_n}
+			\end{align}
+		\item With these representations, we can represent vector addition as
+			\begin{align}
+				\vecvec{a_1,a_2,\dots,a_n}+\vecvec{b_1,b_2,\dots,b_n}  =  \vecvec{a_1+b_1,a_2+b_2,\dots,a_n+b_n}
+			\end{align}
+			and scalar multiplication by
+			\begin{align}
+				c\vecvec{a_1,a_2,\dots,a_n} =  \vecvec{ca_1,ca_2,\dots,ca_n}
+			\end{align}
+	\end{itemize}
+\end{definition}
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{definition}
+	In any vector space, \(V\), with scalar field \(F\), an \emph{inner product} is a function
+	\begin{align*}
+	P:V\times V\to F
+	\end{align*}
+	that satisfies the following\footnote{If \(F\) is a field where ``conjugate'' make sense, the complex numbers for example, then the right hand side of the equation in Property \ref{item: inner products are commutative up to conjugation} should be replaced with \( \overline{P(\vec{w},\vec{v})} \).} :
+	\begin{enumerate}
+		\item \(P(\vec{v}+c\vec{w},\vec{z})=P(\vec{v},\vec{z})+cP(\vec{w},\vec{z})\) for all vectors \( \vec{v}, \vec{w},\) and \(\vec{z}\) in \(V\), and any scalar, \(c\), in \(F\).
+		\item \(P(\vec{v},\vec{v})\geq 0 \) for all \(\vec{v}\) in \(V\) (and \(P(\vec{v},\vec{v})= 0 \) if and only if \(\vec{v}=\vec{0}\)).
+		\item\( P(\vec{v},\vec{w}) = P(\vec{w},\vec{v})\) \label{item: inner products are commutative up to conjugation}
+	\end{enumerate}
+	\end{definition}
+\end{minipage}
+
+\begin{definition}
+	In \(\mathbb{R}^n\) the \emph{dot product} of \(\vec{a}\) and \(\vec{b}\), \(\vec{a}\dotprod\vec{b}\), is defined by
+	\begin{align*}
+		\vecvec{a_1,a_2,\dots,a_n}\dotprod\vecvec{b_1,b_2,\dots,b_n} = a_1b_1 + a_2b_2 +\dots + a_nb_n.
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	The dot product is an inner product in the vector space made up of arrows in \(\mathbb{R}^n\) with scalar field \(\mathbb{R}\).
+\end{theorem}
+
+\begin{theorem}[Properties of the Dot Product]
+	If \(\vec{a}, \vec{b},\) and \(\vec{c}\) are vectors in \( \mathbb{R}^n \) and \(c\) is a scalar, then
+	\begin{multicols}{2}
+		\begin{enumerate}
+			\item \( \vec{a} \dotprod \vec{b} = \vec{b} \dotprod \vec{a} \)
+			\item \( \vec{a} \dotprod (\vec{b}+\vec{c}) = \vec{a} \dotprod \vec{b}+\vec{a} \dotprod \vec{c} \)
+			\item \( (c \cdot \vec{a})\dotprod \vec{b} = c \cdot (\vec{a}\dotprod \vec{b}) = \vec{a}\dotprod (c\cdot \vec{b}) \)
+			\item \( \vec{0}\dotprod\vec{a} = 0 \)
+		\end{enumerate}
+	\end{multicols}
+\end{theorem}
+
+\begin{theorem}
+	The magnitude of a vector, \(\vec{v}\), denoted \(\vecnorm{\vec{v}}\), is given by
+	\begin{align*}
+		\vecnorm{\vec{v}} = \sqrt{ \vec{v}\dotprod\vec{v} }.
+	\end{align*}
+\end{theorem}
+
+\begin{definition}
+	The \emph{angle between two vectors} is measured by arranging them so that they have the same initial point, then measuring the angle between them in the plane containing both of them. Two vectors in \(\mathbb{R}^n\) are said to be \emph{orthogonal} if the angle between them is \( \pi/2 \).
+\end{definition}
+
+\begin{theorem}
+	If \( \theta \) is the angle between vectors \(\vec{a}\) and \(\vec{b}\), then 
+	\begin{align*}
+		\vec{a}\dotprod\vec{b}=\vecnorm{\vec{a}}\cdot\vecnorm{\vec{b}}\cdot\cos(\theta).
+	\end{align*}
+\end{theorem}
+
+\begin{corollary}
+	Two vector are orthogonal if and only if their dot product is zero.
+\end{corollary}
+
+\begin{definition}
+	If \(\vec{v}=\vecvec{a_1,a_2,a_3}\) and \(\vec{w}=\vecvec{b_1,b_2,b_3}\) are vectors in \(\mathbb{R}^3\) then the \emph{cross-product}, \(\times\), between \(\vec{v}\) and \(\vec{w}\) is defined by:
+	\begin{align*}
+		\vec{v} \times \vec{w} = \vecvec{a_2b_3-a_3b_2, a_3b_1-a_1b_3, a_1b_2-a_2b_1}
+	\end{align*}
+\end{definition}
+
+\begin{theorem}[Properties of the Cross Product]
+	If \(\vec{a}, \vec{b},\) and \(\vec{c}\) are vectors in \( \mathbb{R}^3 \) and \(c\) is a scalar, then
+	\begin{multicols}{2}
+		\begin{enumerate}
+			\item \( \vec{a} \times \vec{b}  = - (\vec{b} \times \vec{a}) \)
+			\item \( (c\cdot\vec{a}) \times \vec{b} = c\cdot(\vec{a} \times \vec{b}) = \vec{a} \times (c\cdot \vec{b}) \)
+			\item \( \vec{a} \times ( \vec{b} + \vec{c} ) = \vec{a} \times \vec{b} + \vec{a} \times \vec{c} \)
+			\item \( (\vec{a} +  \vec{b}) \times \vec{c}  = \vec{a} \times \vec{c} + \vec{b} \times \vec{c} \)
+			\item \( \vec{a} \dotprod ( \vec{b}\times\vec{c} ) = (\vec{a}\times\vec{b})\dotprod\vec{c} \)
+			\item \( \vec{a} \times (\vec{b} \times \vec{c} ) = (\vec{a}\dotprod \vec{c})\cdot\vec{b} - (\vec{a}\dotprod\vec{b})\cdot\vec{c} \)
+		\end{enumerate}
+	\end{multicols}
+\end{theorem}
+
+\begin{theorem}
+	The vector \( \vec{a}\times\vec{b} \) is orthogonal to both \(\vec{a}\) and \(\vec{b}\).
+\end{theorem}
+
+\begin{theorem}
+	If \(0\leq \theta\leq \pi\) is the angle between \(\vec{a}\) and \(\vec{b}\), then
+	\begin{align*}
+		\vecnorm{\vec{a}\times \vec{b}}=\vecnorm{\vec{a}}\cdot\vecnorm{\vec{b}}\cdot\sin(\theta).
+	\end{align*}
+\end{theorem}
+
+\begin{corollary}
+	Two non-zero vectors in \(\mathbb{R}^3\) are parallel if and only if their cross product is zero.
+\end{corollary}
+
+\subsection{Describing Lines and Planes}
+
+\begin{definition}
+	The \emph{direction of a line}, \( \ell \), in \(\mathbb{R}^n\) is described by any non-zero vector with terminal and initial points lying on \(\ell\).
+\end{definition}
+
+\begin{definition}
+	The vector equation for a line, \( \vec{\ell}(t) \) , can be determined by the direction of the line, \(\vec{v}\), and any point on the line, \(P_0\). The equation is for \(\ell\) is written as
+	\begin{align*}
+		\vec{\ell}(t)=\vec{v}\cdot t +\overrightarrow{OP_0} \text{ for }t\in\mathbb{R}
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Descriptions of Lines in \(\mathbb{R}^3\)]
+	Given a line \(\ell \subset \mathbb{R}^3 \) with vector equation
+	\begin{align}
+		\vecvec{x,y,z}=\vecvec{a,b,c}\cdot t + \vecvec{x_0,y_0,z_0}
+	\end{align}
+	for \(t\in\mathbb{R}\), we can use the fact that two vectors are equal if and only if their components are equal to express \(\ell\) \emph{parametrically} in \(t\) using the scalar equations determined by the components of the vector equation:
+	\begin{align}
+		x=x_0+at \quad\quad y=y_0+bt \quad\quad z=z_0+ct \label{eqn: parametric equations for a line in R^3}
+	\end{align}
+	Furthermore, we may solve each of the expression in (\ref{eqn: parametric equations for a line in R^3}) for \(t\) and describe \(\ell\) as the set of solutions to the \emph{symmetric equations}:
+	\begin{align}
+		\frac{x-x_0}{a}=\frac{y-y_0}{b}=\frac{z-z_0}{c}
+	\end{align}
+\end{definition}
+
+\begin{definition}
+	\emph{Skew lines} are pairs of lines in \(\mathbb{R}^3\) that do not intersect and whose directions are not parallel.
+\end{definition}
+
+\begin{lemma}
+	Skew lines do not lie in the same plane.
+\end{lemma}
+
+\begin{definition}
+	A \emph{plane} in \(\mathbb{R}^3\) is determined by any point on the plane, \(P_0\), and any \emph{normal vector}, \(\vec{n}\), that is non-zero and is orthogonal to any vector with initial and terminal points lying in the plane. Two planes are \emph{parallel} if their normal vectors are parallel to each other. Two planes are \emph{orthogonal} if their normal vectors are orthogonal to each other. The \emph{angle} between planes is the acute angle between their normal vectors.
+\end{definition}
+
+\begin{definition}[Descriptions of Planes in \(\mathbb{R}^3\)]
+	Given a plane containing the point \(P_0(x_0,y_0,z_0)\) and with normal vector \(\vec{n}=\vecvec{a,b,c} \), we have
+	\begin{itemize}
+		\item The \emph{vector equation} for the plane is given by
+			\begin{align}
+				\vecvec{a,b,c}\dotprod(\vecvec{x,y,z}-\vecvec{x_0,y_0,z_0})=0
+			\end{align}
+		\item Expanding the vector equation gives the \emph{scalar equation} for the plane, as
+			\begin{align}
+				a(x-x_0)+b(y-y_0)+c(z-z_0)=0
+			\end{align}
+		\item If we let \(d=-(ax_0+by_0+cz_0)\) then we get the \emph{linear equation} for the plane, as
+			\begin{align}
+				ax+by+cz+d=0
+			\end{align}
+	\end{itemize}
+\end{definition}
+
+\section{Vector Valued Functions}
+
+\begin{definition}
+	A \emph{vector valued function} is a function which takes a real valued \emph{parameter} as input, and returns a vector as output. Given \emph{component functions}, \(x(t)\), \(y(t)\), and \(z(t)\), we write
+	\begin{align*}
+	\vec{r}(t)=\vecvec{f(t),g(t),h(t)}=f(t)\vec{i}+g(t)\vec{j}+h(t)\vec{k}
+	\end{align*}
+	and we say that \(\vec{r}(t)\) describes a \emph{space curve} that is  \emph{parameterized by \(t\)}.
+\end{definition}
+
+\begin{definition}
+	The \emph{derivative of a vector valued function}, \(\vec{r}(t)\), is defined as
+	\begin{align*}
+	\frac{d\vec{r}}{dt}=\vec{r}\:'(t)=\lim_{h\to 0}\frac{\vec{r}(t+h)-\vec{r}(t)}{h},
+	\end{align*}
+	if this limit\footnote{Limits of vector valued functions are defined by taking the limits of the component functions.} exists.
+\end{definition}
+
+\begin{theorem}\label{thm: derivative is derivative of components}
+	If \(\vec{r}(t)=<f(t),g(t),h(t)>=f(t)\vec{i}+g(t)\vec{j}+h(t)\vec{k}\), where \(f(t)\), \(g(t)\), and \(h(t)\) are differentiable functions, then
+	\begin{align*}
+	\vec{r}\:'(t)=<f'(t),g'(t),h'(t)>=f'(t)\vec{i}+g'(t)\vec{j}+h'(t)\vec{k}
+	\end{align*}
+\end{theorem}
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{theorem}
+	In the vector space \((\mathbb{R}^n,\mathbb{R})\) , if we are given vector-valued functions  \(\vec{u}(t)\)and \(\vec{v}(t)\), real-valued function \(f(t)\), and constant \(c\) in \(\mathbb{R}\), then we have that
+	\begin{enumerate}[1.]
+		\begin{multicols}{2}
+			\item \(  \left[ \vec{u}(t) + \vec{v}(t) \right]' = \vec{u}\:'(t) + \vec{v}\:'(t) \)
+			\item \(  \left[ c\vec{u}(t) \right]' = c(\vec{u\:'(t)}) \)
+			\item \(  \left[ f(t)\vec{u}(t) \right]' = f'(t)\vec{u}(t) + f(t)\vec{u}\:'(t) \)
+			\item \(  \left[  \vec{u}(t) \dotprod \vec{v}(t) \right]' = (\vec{u}\:'(t) \dotprod \vec{v}(t)) + (\vec{u}(t) \dotprod  \vec{v}\:'(t)) \)
+			\item \(  \left[  \vec{u}(t)\times \vec{v}(t) \right]' = (\vec{u}\:'(t) \times \vec{v}(t)) + (\vec{u}(t) \times  \vec{v}\:'(t)) \)
+			\item \(  \left[ \vec{u}(f(t)) \right]' = f'(t)\vec{u}\:'(f(t)) \)
+		\end{multicols}
+	\end{enumerate}
+	when differentiating with respect to \(t\).
+\end{theorem}
+
+\end{minipage}
+\begin{definition}
+	The \emph{definite integral of a vector valued function}, \(\vec{r}(t)=\vecvec{f(t),g(t),h(t)}\), is defined as
+	\begin{align}
+	\int_{a}^{b} \vec{r}(t)dt=
+	\left( \int_{a}^{b} f(t) dt \right)\vec{i}
+	+
+	\left( \int_{a}^{b} g(t) dt \right)\vec{j}
+	+
+	\left( \int_{a}^{b} h(t) dt \right)\vec{k}
+	\end{align}
+\end{definition}
+
+\begin{theorem}
+	The Fundamental Theorem of Calculus extends to vector valued functions:
+	\begin{align}
+	\int_{a}^{b} \vec{r}(t)dt= \vec{R}(t)\Big|_a^b = \vec{R}(b)-\vec{R}(a),
+	\end{align}
+	where \( \vec{R}(t) \) is any anti-derivative of \(\vec{r}(t)\).
+\end{theorem}
+
+\begin{theorem}
+	Given a space curve described by the vector valued function \(\vec{r}(t)\) for \(a\leq t \leq b\), the arc length of the curve is given by
+	\begin{align*}
+		L= \int_{a}^{b}\vecnorm{\vec{r}\:'(t)}dt
+	\end{align*}
+\end{theorem}
+
+\section{Functions of Several Variables}
+\subsection{Limits}
+\begin{definition}
+	Let \(f\) be a function of two variables, with domain \(D\). Suppose \((a,b)\) is the center of an arbitrarily small circle, and all of the points inside the circle, except possibly \((a,b)\) itself, are in \(D\). Then we define 
+	\begin{align*}
+	\lim_{(x,y)\to (a,b)} f(x,y)=L
+	\end{align*}
+	if for every \( \varepsilon>0 \) there is a \( \delta>0 \) so that whenever a point \((x_0,y_0)\), in the domain of \(f\), is within distance \(\delta\) of \((a,b)\), then \(f(x_0,y_0)\) is within distance \(\varepsilon\) of \(L\).
+\end{definition}
+
+\begin{theorem}
+	If the limit of \(f\), as \((x,y)\) approaches \((a,b)\) along any path in the domain of \(f\), is not the same as the limit of \(f\) as \((x,y)\) approaches \((a,b)\) along a different path in the domain of \(f\), then \( \lim_{(x,y)\to (a,b)} f(x,y) \) does not exist.
+\end{theorem}
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{theorem}[The Squeeze Theorem]
+	Suppose \(f, g\), and \(h\) are function of two variables, all defined on a set \(D\). Further, suppose that
+	\begin{align*}
+	f(x,y) \leq g(x,y) \leq h(x,y)  \text{ for all }(x,y)\text{ in }D
+	\end{align*}
+	If \((a,b)\) is the center of an arbitrarily small circle,  and all of the points inside the circle, except possibly \((a,b)\) itself, are in \(D\), and if
+	\begin{align*}
+	\lim_{(x,y)\to (a,b)} f(x,y)=\lim_{(x,y)\to (a,b)} h(x,y)=L
+	\end{align*}
+	then
+	\begin{align*}
+	\lim_{(x,y)\to (a,b)} g(x,y)=L
+	\end{align*}
+\end{theorem}
+
+\end{minipage}
+\begin{definition}
+	Let \(f\) be a function of two variables, with domain \(D\). We say that \(f\) is \emph{continuous} if, for all points \((a,b)\) in \(D\),
+	\begin{align*}
+	\lim_{(x,y)\to (a,b)} f(x,y)=f(a,b)
+	\end{align*}
+\end{definition}
+\subsection{Differential Calculus}
+
+\begin{definition}
+	Let \(f(x,y)\) be a function of two variables. We define the partial derivative of \(f\) in the with respect to \(x\) by
+	\begin{align}
+	f_x=\lim_{h \to 0} \frac{f(x+h,y)-f(x,y)}{h}
+	\end{align}
+	whenever this limit exists.
+	
+	More generally, if we let \(f(x_1,x_2,\dots,a_n)\) be a function of \(n\) variables, we define the partial derivative of \(f\) with respect to \( x_i \) by
+	\begin{align*}
+	f_{x_i}=\lim_{h \to 0} \frac{f(x_1,x_2,\dots,x_i+h,\dots,x_n)-f(x_1,x_2,\dots,x_n)}{h}
+	\end{align*}
+	whenever this limit exists.
+\end{definition}
+
+\begin{theorem}[Clairaut's Theorem]
+	Suppose \((a,b)\) is the center of an arbitrarily small circle, and a function \(f(x,y)\) is defined at all of the points inside the circle.
+	
+	If \(f_{xy}\) and \(f_{yx}\) are continuous at all points inside the circle, then \( f_{xy}(a,b)=f_{yx}(a,b) \)
+\end{theorem}
+
+\begin{theorem}
+	If all of the partial derivatives of a function are continuous, at a given point, then the function is differentiable at that point.
+\end{theorem}
+
+\begin{definition}
+	Let \(\vec{u}=\vecvec{a,b}\) be a unit vector, and let \(f(x,y)\) be a function of two variables. We define the derivative of \(f\) in the direction of \(\vec{u}\) by
+	\begin{align}
+	D_{\vec{u}}f=\lim_{h \to 0} \frac{f(x+ah,y+bh)-f(x,y)}{h}
+	\end{align}
+	whenever this limit exists.
+	
+	More generally, if we let \(\vec{u}=\vecvec{a_1,a_2,\dots,a_n}\) be a unit vector, and let \(f(x_1,x_2,\dots,a_n)\) be a function of \(n\) variables. We define the derivative of \(f\) in the direction of \(\vec{u}\) by
+	\begin{align*}
+	D_{\vec{u}}f=\lim_{h \to 0} \frac{f(x_1+a_1 h,x_2+a_2 h,\dots,x_n+a_n h)-f(x_1,x_2,\dots,x_n)}{h}
+	\end{align*}
+	whenever this limit exists.
+\end{definition}
+\begin{definition}
+	The \emph{gradient vector} of a differentiable function, \(f(x,y)\), is defined as 
+	\begin{align}
+	\nabla f = \vecvec{f_x,f_y}
+	\end{align}
+	
+	More generally, for a differentiable function \(f(x_1,x_2,\dots,x_n)\), we have
+	\begin{align*}
+	\nabla f = \vecvec{f_{x_1},f_{x_2},\cdots,f_{x_m}}
+	\end{align*}
+\end{definition}
+\begin{theorem}
+	If \(\vec{u}=\) is a unit vector, and \(f\) is a differentiable function then
+	\begin{align}
+	D_{\vec{u}}f=\nabla f\dotprod \vec{u}
+	\end{align}
+\end{theorem}
+\begin{corollary}
+	If \(f\) is a differentiable function then, at the point \(P\), \(D_{\vec{u}}f\) is maximized when 
+	\begin{align}
+	\vec{u}=\frac{\nabla f(P)}{\vecnorm{\nabla f(P)}}
+	\end{align}
+	That is, the rate of change of \(f\), at the point \(P\), is greatest in the direction of the gradient vector at that point.
+\end{corollary}
+\begin{corollary}
+	If \(f\) is a differentiable function then, at the point \(P\), the maximum rate of change of \(f\) is \( \vecnorm{\nabla f(P)} \).
+\end{corollary}
+\begin{definition}
+	Given a function \(z=f(x,y)\), we say that \((a,b)\) is a \emph{critical point} of \(f\) if
+	\begin{enumerate}
+		\item \(f_x(a,b)=f_y(a,b)=0\), or
+		\item \(f_x(a,b)\) or \(f_y(a,b)\) is undefined.
+	\end{enumerate}
+\end{definition}
+\begin{theorem}[The Second Derivative Test]
+	Suppose that \(z=f(x,y)\) has continuous second partial derivatives in a neighborhood of the point \((a,b)\), and that \((a,b)\) is a critical point of \(f\). Define
+	\begin{align*}
+	D(x,y)=
+	\begin{vmatrix}
+	f_{xx}& f_{xy}\\ 
+	f_{yx}& f_{yy} 
+	\end{vmatrix}
+	=f_{xx}(x,y)f_{yy}(x,y)-\left[ f_{xy}(x,y) \right]^2.
+	\end{align*}
+	We, then, have the following:
+	\begin{enumerate}
+		\item If \(D(a,b)>0\), and \(f_{xx}(a,b)>0\), then \(f(a,b)\) is a local minimum.
+		\item If \(D(a,b)>0\), and \(f_{xx}(a,b)<0\), then \(f(a,b)\) is a local maximum.
+		\item If \(D(a,b)<0\), then \(f(a,b)\) is a saddle.
+	\end{enumerate}
+\end{theorem}
+\subsection{Integral Calculus}
+\subsubsection{Change of Coordinates}
+\begin{definition}
+	Given \(x\) and \(y\), we convert to \emph{polar coordinates} using
+	\begin{align*}
+	r^2= x^2+y^2 && \tan(\theta) = \frac{y}{x}
+	\end{align*}
+	Given \(r\) and \(\theta\), we convert to rectangular coordinates using
+	\begin{align*}
+	x=r\cos(\theta) && y=r\sin(\theta)
+	\end{align*}
+\end{definition}
+\begin{definition}
+	Given \(x,y\) and \(z\), we convert to \emph{cylindrical coordinates} using
+	\begin{align*}
+	r^2 &= x^2+y^2 && \tan(\theta)= \frac{y}{x} && z=z
+	\end{align*}
+	Given \(z, r\) and \(\theta\), we convert to rectangular coordinates using
+	\begin{align*}
+	x=r\cos(\theta) && y=r\sin(\theta) && z=z
+	\end{align*}
+\end{definition}
+\begin{definition}
+	Given \(\rho, \theta\) and \(\phi\), we can convert to from spherical to rectangular coordinates using:
+	\begin{align*}
+	x=\rho\sin(\phi) \cos(\theta) && y=\rho\sin(\phi) \sin(\theta) && z=\rho\cos(\phi)
+	\end{align*}
+	To convert from rectangular to spherical, we use on the fact that
+	\begin{align*}
+	\rho^2=x^2+y^2+z^2
+	\end{align*}
+	and work from there.
+\end{definition}
+\begin{theorem}
+	When we estimate
+	\begin{align*}
+	\iint_R f(x,y) dA
+	\end{align*}
+	We could cut \(R\) into small rectangles with area \(\Delta x \cdot \Delta y\), and pick some \((x*,y*)\) in each rectangle to get the height of a rectangular prism with volume
+	\begin{align*}
+	f(x^*,y^*)\cdot \left(\Delta x \cdot \Delta y\right).
+	\end{align*}
+	Roughly, we can say that, if we choose rectangular coordinates, then \begin{align}
+	dA=dx\:dy
+	\end{align}
+	
+	Alternatively, we could cut \(R\) into polar rectangles with area \( r^* \: \Delta r \: \Delta \theta \), and use the associated \(\theta^*\) to compute the height of a right solid with volume
+	\begin{align*}
+	f(r^*\cos(\theta^*),r^*\sin(\theta^*))\cdot \left(r^* \: \Delta r \: \Delta \theta\right)
+	\end{align*}
+	Roughly, we can say that if we choose polar coordinates, then 
+	\begin{align}
+	dA=r\:dr\:d\theta
+	\end{align}
+\end{theorem}
+\begin{theorem}
+	When we estimate
+	\begin{align*}
+	\iiint_E f(x,y,z) dV
+	\end{align*}
+	If we approximate \(E\) into using rectangular prisms, each will have volume \( \Delta x \Delta y \Delta z \), and if we pick a point in that rectangular prism \((x^*,y^*,z^*)\), then we are adding terms that look like
+	\begin{align*}
+	f(x^*,y^*,z^*)\cdot(  \Delta x \Delta y \Delta z  ).
+	\end{align*}
+	Roughly, we can say that if we choose rectangular coordinates, then \begin{align}
+	dV=dx\:dx\:dz
+	\end{align}
+	
+	
+	If we approximate \(E\) using thickened polar rectangles, each will have volume \( r^* \: \Delta z \Delta r \: \Delta \theta  \) and if we pick a point in each of these pieces, then we are adding terms that look like
+	\begin{align*}
+	f(r^*\cos(\theta^*),r^*\sin(\theta^*),z^*)\cdot(r^* \: \Delta z \Delta r \: \Delta \theta).
+	\end{align*}
+	Roughly, we can say that if we choose cylindrical coordinates, then \begin{align}
+	dV=r\:dz\:dr\:d\theta
+	\end{align}
+	
+	
+	If we approximate \(E\) using spherical wedges, each will have a volume \((\rho^*)^2\sin(\phi^*)\Delta\rho \Delta\theta \Delta \phi \), and if we pick a point in each of these pieces, then we are adding terms that look like
+	\begin{align*}
+	f(\rho^*\sin(\phi^*)\cos(\theta^*),\rho^*\sin(\phi^*)\sin(\theta^*),\rho^*\cos(\phi^*) )\cdot((\rho^*)^2\sin(\phi^*)\Delta\rho \Delta\theta \Delta \phi).
+	\end{align*}
+	Roughly, we can say that if we choose spherical coordinates, then \begin{align}
+	dV=\rho^2\sin(\phi)\:d\rho\:d\theta\:d\phi
+	\end{align}
+\end{theorem}
+\newpage
+\section{Useful Identities, Derivatives, and Integrals}
+\subsection{Trigonometric Identities}\label{sec: trig}
+\begin{enumerate}[1.]
+	\begin{multicols}{2}
+		\item \(\displaystyle \sin^2(x) + \cos^2(x) = 1 \)\label{eqn: fundamental trig id}
+		\item \(\displaystyle 2\sin^2(x) = 1-\cos(2x) \)
+		\item \(\displaystyle 2\cos^2(x) = 1+\cos(2x) \)
+		\item \(\sin(2x)=2\sin(x)\cos(x) \)
+		\item \(\cos(2x)=\cos^2(x)-sin^2(x) \)
+		\item \(\displaystyle 2\left[\sin(A)\cos(B)\right] =  \sin(A-B) + \sin(A+B)  \)
+		\item \(\displaystyle 2\left[\sin(A)\sin(B)\right] =  \cos(A-B) - \cos(A+B)  \)
+		\item \(\displaystyle 2\left[\cos(A)\cos(B)\right] =  \cos(A-B) + \cos(A+B)  \)
+	\end{multicols}
+\end{enumerate}
+
+\subsection{Derivatives}
+\begin{multicols}{2}
+	\begin{enumerate}
+		\item \( \displaystyle \frac{d}{dx} \left( a^x \right) = a^x\ln(a) \)
+		\item \( \displaystyle \frac{d}{dx} \left(  \log_a(x) \right) =  \frac{1}{x\ln(a)}\)
+		\item \( \displaystyle \frac{d}{dx} \left( \sin(x) \right) = \cos(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \cos(x) \right) = -\sin(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \tan(x) \right) = \sec^2(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \csc(x) \right) = -\csc(x)\cot(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \sec(x) \right) = \sec(x)\tan(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \cot(x) \right) = -\csc^2(x) \)
+		\item \( \displaystyle \frac{d}{dx} \left( \sin^{-1}(x) \right) = \frac{1}{\sqrt{1-x^2}} \)
+		\item \( \displaystyle \frac{d}{dx} \left( \cos^{-1}(x) \right) = -\frac{1}{\sqrt{1-x^2}} \)
+		\item \( \displaystyle \frac{d}{dx} \left( \tan^{-1}(x) \right) = \frac{1}{1+x^2} \)
+		\item \( \displaystyle \frac{d}{dx} \left( \csc^{-1}(x) \right) = -\frac{1}{x\sqrt{x^2-1}} \)
+		\item \( \displaystyle \frac{d}{dx} \left( \sec^{-1}(x) \right) = \frac{1}{x\sqrt{x^2-1}} \)
+		\item \( \displaystyle \frac{d}{dx} \left( \cot^{-1}(x) \right) = -\frac{1}{1+x^2} \)
+	\end{enumerate}
+\end{multicols}
+
+\subsection{Integrals}
+For functions \(u\) and \(v\) satisfying the appropriate hypotheses, we have
+\begin{multicols}{2}
+	\begin{enumerate}[1.]
+		\item \( \displaystyle \int (a^u) du = a^u/\ln(u) + C \)
+		\item \( \displaystyle \int (1/u) du = \ln|u| + C \)
+		\item \( \displaystyle \int \sin(u) du = -\cos(u) + C \)
+		\item \( \displaystyle \int \cos(u) du = \sin(u) + C \)
+		\item \( \displaystyle \int \sec^2(u) du = \tan(u) + C \)
+		\item \( \displaystyle \int \csc(u)\cot(u) du = -\csc(u) + C \)
+		\item \( \displaystyle \int \sec(u)\tan(u) du = \sec(u) + C \)
+		\item \( \displaystyle \int \csc^2(u) du = -\cot(u) + C \)
+		\item \( \displaystyle \int \frac{1}{\sqrt{a^2-u^2}} du = \sin^{-1}(u/a) + C \)
+		\item \( \displaystyle \int \frac{1}{a^2+u^2}  du = (1/a)\tan^{-1}(u/a) + C \)
+		\item \( \displaystyle \int \frac{1}{u\sqrt{u^2-a^2}}  du = (1/a)\sec^{-1}(u/a) + C \)
+		\item \( \displaystyle \int \tan(u) 	du = \ln|\sec(u)| + C \)
+		\item \( \displaystyle \int \cot(u)  du = \ln|\sin(u)| + C \)
+		\item \( \displaystyle \int \sec(u)  du = \ln|\sec(u) + \tan(u)| + C \)
+		\item \( \displaystyle \int \csc(u)  du = \ln|\csc(u) - \cot(u)| + C \)
+	\end{enumerate}
+\end{multicols}
+
+
+\end{document}
