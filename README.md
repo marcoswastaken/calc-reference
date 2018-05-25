@@ -1,2 +1,2 @@
 # calc-reference
-Reference sheets from my calculus courses.
+Reference sheets from my multivariable calculus course.
